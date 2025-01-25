@@ -4,4 +4,4 @@ metadata:
   name: azure-function-storage-connection
 type: Opaque
 data:
-  storage-account-key: 
+  # storage-account-key: 
