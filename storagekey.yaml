@@ -4,4 +4,4 @@ metadata:
   name: azure-function-storage-connection
 type: Opaque
 data:
-  storage-account-key: DzYX2Cp2Tii881qi55gMRZ+1OVImoNyhsPz8rZ+WW9OxIo1MsV2WQsIKTzKWVDX51/ywlMjXSBPe+AStb4R+Lw==;EndpointSuffix=core.windows.net
+  storage-account-key: 
