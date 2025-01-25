@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: azure-function-app
+  labels:
+    app: azure-function-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: azure-function-app
+  template:
+    metadata:
+      labels:
+        app: azure-function-app
+    spec:
+      containers:
+        - name: azure-function-app
+          image: acrimageregistryust.azurecr.io/image-functionapp:latest  # Replace with your image
+          ports:
+            - containerPort: 80
+          env:
+            - name: AzureWebJobsStorage
+              valueFrom:
+                secretKeyRef:
+                  name: azure-function-storage-connection
+                  key: storage-account-key
+            - name: FUNCTIONS_WORKER_RUNTIME
+              value: dotnet-isolated  # You can replace with your specific runtime (e.g., node, python, etc.)
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "0.5"
+            requests:
+              memory: "256Mi"
+              cpu: "0.2"
