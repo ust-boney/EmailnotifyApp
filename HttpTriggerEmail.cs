@@ -17,28 +17,29 @@ namespace USTTraining.EmailFunctionApp
         }
 
         [Function("HttpTriggerEmail")]
-        public IActionResult Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        public bool Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
         {
-            string name = req.Query["fullname"].ToString();
+            string name = req.Query["name"].ToString();
             string emailAddress = req.Query["email"].ToString();
+            string message= req.Query["message"].ToString();
             
-            bool result= SendMail(name, emailAddress);
-           if(result)
-            return new OkObjectResult("Email sent successfully");
+            bool result= SendMail(name, emailAddress, message);
+
+            return result;
+            //return new OkObjectResult("Email sent successfully");
            
-            return new OkObjectResult("Unable to send email");
+            //return new OkObjectResult("Unable to send email");
         }
 
-        public bool SendMail(string name, string email){
+        public bool SendMail(string name, string email, string message){
 
         MailMessage mailMessage = new MailMessage();
         mailMessage.From = new MailAddress("boney0084@gmail.com");
         mailMessage.To.Add(email);
-        mailMessage.Subject = "Thank you for your request";
-        mailMessage.Body = $"Hi {name}, We are glad to receive the application from UST";
+        mailMessage.Subject = "Received your request";
+        mailMessage.Body = $"Hi {name}, {message}";
 
         SmtpClient smtpClient = new SmtpClient();
-          //  System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3; //| SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
         smtpClient.Host = "smtp.gmail.com";
         smtpClient.Port = 587;
             
